@@ -47,13 +47,13 @@ public:
 	bool operator == (const Matrix&);
 	bool operator != (const Matrix&);
 
-	void	elementwiseAddition(const Matrix&);
+	void		elementwiseAddition(const Matrix&);
 	static Matrix	elementwiseAddition(const Matrix&, const Matrix&);
-	void	elementwiseSubtraction(const Matrix&);
+	void		elementwiseSubtraction(const Matrix&);
 	static Matrix	elementwiseSubtraction(const Matrix&, const Matrix&);
-	void	elementwiseProduct(const Matrix&);
+	void		elementwiseProduct(const Matrix&);
 	static Matrix	elementwiseProduct(const Matrix&, const Matrix&);
-	void	elementwiseDivision(const Matrix&);
+	void		elementwiseDivision(const Matrix&);
 	static Matrix	elementwiseDivision(const Matrix&, const Matrix&);
 
 	void		conjugate();
