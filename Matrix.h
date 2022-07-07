@@ -47,25 +47,25 @@ public:
 	bool operator == (const Matrix&);
 	bool operator != (const Matrix&);
 
-	void			elementwiseAddition(const Matrix&);
+	void	elementwiseAddition(const Matrix&);
 	static Matrix	elementwiseAddition(const Matrix&, const Matrix&);
-	void			elementwiseSubtraction(const Matrix&);
+	void	elementwiseSubtraction(const Matrix&);
 	static Matrix	elementwiseSubtraction(const Matrix&, const Matrix&);
-	void			elementwiseProduct(const Matrix&);
+	void	elementwiseProduct(const Matrix&);
 	static Matrix	elementwiseProduct(const Matrix&, const Matrix&);
-	void			elementwiseDivision(const Matrix&);
+	void	elementwiseDivision(const Matrix&);
 	static Matrix	elementwiseDivision(const Matrix&, const Matrix&);
 
-	void			conjugate();
+	void		conjugate();
 	static Matrix	conjugate(const Matrix&);
 
-	void			transpose();
+	void		transpose();
 	static Matrix	transpose(const Matrix&);
 
-	void			hermitianConjugate();
+	void		hermitianConjugate();
 	static Matrix	hermitianConjugate(const Matrix&);
 
-	void			tensorProduct(const Matrix&);
+	void		tensorProduct(const Matrix&);
 	static Matrix	tensorProduct(const Matrix&, const Matrix&);
 
 	bool cofactor();
