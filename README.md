@@ -112,7 +112,8 @@ virtual ~Matrix();
 ## Operators
 
 1. Call operator for non-const objects receiving `row` and `col`. <br>
-Returns `0+0i` in out-of-range vector error and `mat[row][col]` in another cases.
+Returns `mat[row][col]`. <br>
+Indices are cycled, so there is no out-of-reange error
 ```cpp
 std::complex<double>& operator () (const unsigned&, const unsigned&);
 ```
@@ -120,7 +121,8 @@ std::complex<double>& operator () (const unsigned&, const unsigned&);
 <br>
 
 2. Call operator for const objects receiving `row` and `col`. <br>
-Returns `0+0i` in out-of-range vector error and `mat[row][col]` in another cases.
+Returns `mat[row][col]`. <br>
+Indices are cycled, so there is no out-of-reange error
 ```cpp
 const std::complex<double>& operator () (const unsigned&, const unsigned&) const;
 ```
