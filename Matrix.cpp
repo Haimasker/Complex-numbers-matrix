@@ -57,17 +57,11 @@ Matrix::Matrix(const Matrix& m) {
 Matrix::~Matrix() {}
 
 std::complex<double>& Matrix::operator () (const unsigned& row, const unsigned& col) {
-	if (row < this->rows && col < this->cols)
-		return this->mat[row][col];
-	std::complex<double> res(0, 0);
-	return res;
+	return this->mat[row % this->rows][col % this->cols];
 }
 
 const std::complex<double>& Matrix::operator () (const unsigned& row, const unsigned& col) const {
-	if (row < this->rows && col < this->cols)
-		return this->mat[row][col];
-	std::complex<double> res(0, 0);
-	return res;
+	return this->mat[row % this->rows][col % this->cols];
 }
 
 Matrix& Matrix::operator = (const Matrix& m) {
