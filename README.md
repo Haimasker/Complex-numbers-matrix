@@ -113,7 +113,7 @@ virtual ~Matrix();
 
 1. Call operator for non-const objects receiving `row` and `col`. <br>
 Returns `mat[row][col]`. <br>
-Indices are cycled, so there is no out-of-reange error
+Indices are cycled, so there is no out-of-range error
 ```cpp
 std::complex<double>& operator () (const unsigned&, const unsigned&);
 ```
@@ -122,7 +122,7 @@ std::complex<double>& operator () (const unsigned&, const unsigned&);
 
 2. Call operator for const objects receiving `row` and `col`. <br>
 Returns `mat[row][col]`. <br>
-Indices are cycled, so there is no out-of-reange error
+Indices are cycled, so there is no out-of-range error
 ```cpp
 const std::complex<double>& operator () (const unsigned&, const unsigned&) const;
 ```
@@ -417,7 +417,7 @@ void resize(const unsigned&, const unsigned&, const std::complex<double>& = 0.0 
 
 <br>
 
-17. `rehape` <br>
+17. `reshape` <br>
 Returns `false` if reshaping is impossible. <br>
 Returns `true` and reshapes `this->mat` if it is possible.
 ```cpp
