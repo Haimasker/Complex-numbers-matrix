@@ -8,22 +8,21 @@
 using namespace std::complex_literals;
 
 class Matrix {
-
 private:
 	std::vector<std::vector<std::complex<double>>> mat;
 	unsigned rows;
 	unsigned cols;
 
 public:
-	Matrix(unsigned = 0, unsigned = 0, std::complex<double> = 0.0 + 0.0i);
-	Matrix(std::vector<std::vector<std::complex<double>>>*);
-	Matrix(unsigned, unsigned, std::vector<std::vector<std::complex<double>>>*, std::complex<double> = 0.0 + 0.0i);
-	Matrix(unsigned, unsigned, std::vector<std::complex<double>>*, std::complex<double> = 0.0 + 0.0i);
-	Matrix(const Matrix&);
+	Matrix(unsigned = 0, unsigned = 0, std::complex<double> = 0.0 + 0.0i) noexcept;
+	Matrix(std::vector<std::vector<std::complex<double>>>*) noexcept;
+	Matrix(unsigned, unsigned, std::vector<std::vector<std::complex<double>>>*, std::complex<double> = 0.0 + 0.0i) noexcept;
+	Matrix(unsigned, unsigned, std::vector<std::complex<double>>*, std::complex<double> = 0.0 + 0.0i) noexcept;
+	Matrix(const Matrix&) noexcept;
 
-	virtual ~Matrix();
+	virtual	~Matrix();
 
-	std::complex<double>&		operator () (const unsigned&, const unsigned&);
+	std::complex<double>&	operator () (const unsigned&, const unsigned&);
 	const std::complex<double>&	operator () (const unsigned&, const unsigned&) const;
 
 	Matrix&	operator = (const Matrix&);
@@ -44,8 +43,8 @@ public:
 	Matrix	operator / (const std::complex<double>&);
 	Matrix&	operator /= (const std::complex<double>&);
 
-	bool operator == (const Matrix&);
-	bool operator != (const Matrix&);
+	bool	operator == (const Matrix&);
+	bool	operator != (const Matrix&);
 
 	void		elementwiseAddition(const Matrix&);
 	static Matrix	elementwiseAddition(const Matrix&, const Matrix&);
@@ -68,20 +67,22 @@ public:
 	void		tensorProduct(const Matrix&);
 	static Matrix	tensorProduct(const Matrix&, const Matrix&);
 
-	bool cofactor();
-	bool adjugate();
-	bool inverse();
+	bool	cofactor();
+	bool	adjugate();
+	bool	inverse();
 
-	void resize(const unsigned&, const unsigned&, const std::complex<double>& = 0.0 + 0.0i);
-	bool reshape(const unsigned&, const unsigned&);
+	void	resize(const unsigned&, const unsigned&, const std::complex<double> & = 0.0 + 0.0i);
+	bool	reshape(const unsigned&, const unsigned&);
 
-	std::complex<double> trace();
-	std::complex<double> determinant();
+	std::complex<double>	trace();
+	std::complex<double>	determinant();
 
-	static Matrix identity(const unsigned& = 1);
+	static Matrix	identity(const unsigned& = 1);
 
-	unsigned int getRows();
-	unsigned int getCols();
+	std::vector<std::vector<std::complex<double>>>	getMat();
 
-	friend std::ostream& operator << (std::ostream&, const Matrix&);
+	unsigned	getRows();
+	unsigned	getCols();
+
+	friend std::ostream&	operator << (std::ostream&, Matrix&) noexcept;
 };

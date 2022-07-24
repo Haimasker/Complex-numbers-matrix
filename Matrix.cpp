@@ -1,6 +1,6 @@
 #include "Matrix.h"
 
-Matrix::Matrix(unsigned row, unsigned col, std::complex<double> init) {
+Matrix::Matrix(unsigned row, unsigned col, std::complex<double> init) noexcept {
 	mat.resize(row);
 	for (unsigned i = 0; i < row; i++)
 		mat[i] = std::vector<std::complex<double>>(col, init);
@@ -8,47 +8,57 @@ Matrix::Matrix(unsigned row, unsigned col, std::complex<double> init) {
 	cols = (row == 0) ? 0 : col;
 }
 
-Matrix::Matrix(std::vector<std::vector<std::complex<double>>>* m) {
+Matrix::Matrix(std::vector<std::vector<std::complex<double>>>* m) noexcept {
+	bool square = true;
+	for (unsigned i = 1; i < (*m).size() && square; i++)
+		square = (*m)[i].size() == (*m)[0].size();
+	if (!square) {
+		this->cols = this->rows = 0;
+		this->mat.resize(0);
+		return;
+	}
 	this->mat = *m;
 	this->rows = (unsigned)m->size();
-	this->cols = 0;
-	if (this->rows)
-		this->cols = (unsigned)(*m)[0].size();
+	this->cols = (unsigned)(*m)[0].size();
 }
 
-Matrix::Matrix(unsigned row, unsigned col, std::vector<std::vector<std::complex<double>>>* m, std::complex<double> init) {
+Matrix::Matrix(unsigned row, unsigned col, std::vector<std::vector<std::complex<double>>>* m, std::complex<double> init) noexcept {
 	std::vector<std::vector<std::complex<double>>> res(row);
-	for (unsigned i = 0; i < res.size(); i++)
+	for (size_t i = 0; i < res.size(); i++)
 		res[i] = std::vector<std::complex<double>>(col);
-	for (unsigned i = 0; i < std::min((size_t)row * col, (*m).size()); i++)
+
+	unsigned mSize = 0;
+	for (unsigned i = 0; i < (*m).size(); i++)
+		mSize += (unsigned)(*m)[i].size();
+
+	for (unsigned i = 0; i < std::min(row * col, mSize); i++)
 		res[i / col][i % col] = (*m)[i / (*m)[0].size()][i % (*m)[0].size()];
-	if ((*m).size() < (size_t)row * col)
-		for (unsigned i = (unsigned)(*m).size(); i < row * col; i++)
-			res[i / col][i % col] = init;
+	if (mSize < (row * col))
+		for (; mSize < row * col; mSize++)
+			res[mSize / col][mSize % col] = init;
+
 	this->mat = res;
 	this->rows = row;
-	this->cols = 0;
-	if (this->rows)
-		this->cols = col;
+	this->cols = (row == 0) ? 0 : col;
 }
 
-Matrix::Matrix(unsigned row, unsigned col, std::vector<std::complex<double>>* m, std::complex<double> init) {
+Matrix::Matrix(unsigned row, unsigned col, std::vector<std::complex<double>>* m, std::complex<double> init) noexcept {
 	std::vector<std::vector<std::complex<double>>> res(row);
 	for (unsigned i = 0; i < res.size(); i++)
 		res[i] = std::vector<std::complex<double>>(col);
+
 	for (unsigned i = 0; i < std::min((size_t)row * col, (*m).size()); i++)
 		res[i / col][i % col] = (*m)[i];
 	if ((*m).size() < (size_t)row * col)
 		for (unsigned i = (unsigned)(*m).size(); i < row * col; i++)
 			res[i / col][i % col] = init;
+
 	this->mat = res;
 	this->rows = row;
-	this->cols = 0;
-	if (this->rows)
-		this->cols = col;
+	this->cols = (row == 0) ? 0 : col;
 }
 
-Matrix::Matrix(const Matrix& m) {
+Matrix::Matrix(const Matrix& m) noexcept {
 	this->mat = m.mat;
 	this->rows = m.rows;
 	this->cols = m.cols;
@@ -68,8 +78,8 @@ Matrix& Matrix::operator = (const Matrix& m) {
 	if (this == &m || this->mat == m.mat)
 		return *this;
 	this->mat = m.mat;
-	rows = m.rows;
-	cols = m.cols;
+	this->rows = m.rows;
+	this->cols = m.cols;
 	return *this;
 }
 
@@ -77,8 +87,8 @@ Matrix Matrix::operator + (const Matrix& m) {
 	if (this->rows != m.rows || this->cols != m.cols)
 		return Matrix();
 	Matrix res(this->rows, this->cols, 0.0 + 0.0i);
-	for (unsigned i = 0; i < rows; i++)
-		for (unsigned j = 0; j < cols; j++)
+	for (unsigned i = 0; i < this->rows; i++)
+		for (unsigned j = 0; j < this->cols; j++)
 			res(i, j) = this->mat[i][j] + m(i, j);
 	return res;
 }
@@ -86,8 +96,8 @@ Matrix Matrix::operator + (const Matrix& m) {
 Matrix& Matrix::operator += (const Matrix& m) {
 	if (this->rows != m.rows || this->cols != m.cols)
 		return *this;
-	for (unsigned i = 0; i < m.rows; i++)
-		for (unsigned j = 0; j < m.cols; j++)
+	for (unsigned i = 0; i < this->rows; i++)
+		for (unsigned j = 0; j < this->cols; j++)
 			this->mat[i][j] += m(i, j);
 	return *this;
 }
@@ -96,8 +106,8 @@ Matrix Matrix::operator - (const Matrix& m) {
 	if (this->rows != m.rows || this->cols != m.cols)
 		return Matrix();
 	Matrix res(this->rows, this->cols, 0.0 + 0.0i);
-	for (unsigned i = 0; i < rows; i++)
-		for (unsigned j = 0; j < cols; j++)
+	for (unsigned i = 0; i < this->rows; i++)
+		for (unsigned j = 0; j < this->cols; j++)
 			res(i, j) = this->mat[i][j] - m(i, j);
 	return res;
 }
@@ -105,8 +115,8 @@ Matrix Matrix::operator - (const Matrix& m) {
 Matrix& Matrix::operator -= (const Matrix& m) {
 	if (this->rows != m.rows || this->cols != m.cols)
 		return *this;
-	for (unsigned i = 0; i < m.rows; i++)
-		for (unsigned j = 0; j < m.cols; j++)
+	for (unsigned i = 0; i < this->rows; i++)
+		for (unsigned j = 0; j < this->cols; j++)
 			this->mat[i][j] -= m(i, j);
 	return *this;
 }
@@ -383,7 +393,7 @@ bool Matrix::adjugate() {
 }
 
 bool Matrix::inverse() {
-	if (this->determinant() == 0.0+0.0i)
+	if (this->determinant() == 0.0 + 0.0i)
 		return false;
 	this->adjugate();
 	*this /= this->determinant();
@@ -403,6 +413,8 @@ void Matrix::resize(const unsigned& row, const unsigned& col, const std::complex
 	else if (col > this->cols)
 		for (unsigned i = 0; i < this->mat.size(); i++)
 			this->mat[i].resize(col, init);
+	this->rows = row;
+	this->cols = col;
 	return;
 }
 
@@ -428,7 +440,7 @@ std::complex<double> Matrix::trace() {
 }
 
 std::complex<double> Matrix::determinant() {
-	std::complex<double> res = 0.0+0.0i;
+	std::complex<double> res = 0.0 + 0.0i;
 	if (this->rows != this->cols)
 		return res;
 	if (this->rows == 1)
@@ -459,6 +471,10 @@ Matrix Matrix::identity(const unsigned& size) {
 	return res;
 }
 
+std::vector<std::vector<std::complex<double>>> Matrix::getMat() {
+	return this->mat;
+}
+
 unsigned Matrix::getRows() {
 	return this->rows;
 }
@@ -467,8 +483,8 @@ unsigned Matrix::getCols() {
 	return this->cols;
 }
 
-std::ostream& operator<<(std::ostream& out, const Matrix& m) {
-	if (m.rows)
+std::ostream& operator << (std::ostream& out, Matrix& m) noexcept {
+	if (&m != nullptr && m.rows)
 		for (std::vector<std::complex<double>> i : m.mat) {
 			for (std::complex<double> j : i)
 				out << std::setw(5) << j << " ";
