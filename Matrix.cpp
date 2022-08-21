@@ -64,6 +64,30 @@ Matrix::Matrix(const Matrix& m) noexcept {
 	this->cols = m.cols;
 }
 
+Matrix& Matrix::operator = (const Matrix& m) noexcept {
+	if (this != &m) {
+		this->rows = m.rows;
+		this->cols = m.cols;
+		this->mat = m.mat;
+	}
+	return *this;
+}
+
+Matrix::Matrix(const Matrix&& m) noexcept :
+	rows(std::exchange(m.rows, 0)),
+	cols(std::exchange(m.cols, 0)),
+	mat(std::move(m.mat)) {
+}
+
+Matrix& Matrix::operator = (const Matrix&& m) noexcept {
+	if (this != &m) {
+		std::exchange(this->rows, m.rows);
+		std::exchange(this->cols, m.cols);
+		this->mat = std::move(m.mat);
+	}
+	return *this;
+}
+
 Matrix::~Matrix() {}
 
 std::complex<double>& Matrix::operator () (const unsigned& row, const unsigned& col) {

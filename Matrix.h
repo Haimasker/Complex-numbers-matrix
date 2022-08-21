@@ -19,6 +19,9 @@ public:
 	Matrix(unsigned, unsigned, std::vector<std::vector<std::complex<double>>>*, std::complex<double> = 0.0 + 0.0i) noexcept;
 	Matrix(unsigned, unsigned, std::vector<std::complex<double>>*, std::complex<double> = 0.0 + 0.0i) noexcept;
 	Matrix(const Matrix&) noexcept;
+	Matrix&	operator = (const Matrix&) noexcept;
+	Matrix(const Matrix&&) noexcept;
+	Matrix&	operator = (const Matrix&&) noexcept;
 
 	virtual	~Matrix();
 
