@@ -82,8 +82,8 @@ public:
 
 	std::vector<std::vector<std::complex<double>>>	getMat();
 
-	unsigned	getRows();
-	unsigned	getCols();
+	unsigned	getRows() const;
+	unsigned	getCols() const;
 
 	friend std::ostream&	operator << (std::ostream&, Matrix&) noexcept;
 };
