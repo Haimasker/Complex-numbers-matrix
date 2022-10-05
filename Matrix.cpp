@@ -64,7 +64,7 @@ Matrix::Matrix(const Matrix& m) noexcept {
 	this->cols = m.cols;
 }
 
-Matrix::Matrix(const Matrix&& m) noexcept :
+Matrix::Matrix(Matrix&& m) noexcept :
 	rows(std::exchange(m.rows, 0)),
 	cols(std::exchange(m.cols, 0)),
 	mat(std::move(m.mat)) {
