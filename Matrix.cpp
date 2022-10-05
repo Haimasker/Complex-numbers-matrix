@@ -353,7 +353,7 @@ void Matrix::tensorProduct(const Matrix& m) {
 	std::vector<std::vector<std::complex<double>>> res;
 	res.resize((size_t)this->rows * m.rows);
 	for (unsigned i = 0; i < res.size(); i++)
-		res[i] = std::vector<std::complex<double>>(this->cols * m.cols);
+		res[i] = std::vector<std::complex<double>>((size_t)this->cols * m.cols);
 	for (unsigned i = 0; i < this->rows * m.rows; i++)
 		for (unsigned j = 0; j < this->cols * m.cols; j++)
 			res[i][j] = this->mat[i / m.rows][j / m.cols] * m(i % m.rows, j % m.cols);
@@ -367,7 +367,7 @@ Matrix Matrix::tensorProduct(const Matrix& m1, const Matrix& m2) {
 	std::vector<std::vector<std::complex<double>>> res;
 	res.resize((size_t)m1.rows * m2.rows);
 	for (unsigned i = 0; i < res.size(); i++)
-		res[i] = std::vector<std::complex<double>>(m1.cols * m2.cols);
+		res[i] = std::vector<std::complex<double>>((size_t)m1.cols * m2.cols);
 	for (unsigned i = 0; i < m1.rows * m2.rows; i++)
 		for (unsigned j = 0; j < m1.cols * m2.cols; j++)
 			res[i][j] = m1(i / m2.rows, j / m2.cols) * m2(i % m2.rows, j % m2.cols);
@@ -481,11 +481,11 @@ std::vector<std::vector<std::complex<double>>> Matrix::getMat() {
 	return this->mat;
 }
 
-unsigned Matrix::getRows() {
+unsigned Matrix::getRows() const {
 	return this->rows;
 }
 
-unsigned Matrix::getCols() {
+unsigned Matrix::getCols() const {
 	return this->cols;
 }
 
