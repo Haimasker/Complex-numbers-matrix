@@ -75,12 +75,12 @@ public:
 	void	resize(const unsigned&, const unsigned&, const std::complex<double> & = 0.0 + 0.0i);
 	bool	reshape(const unsigned&, const unsigned&);
 
-	std::complex<double>	trace();
-	std::complex<double>	determinant();
+	std::complex<double>	trace() const;
+	std::complex<double>	determinant() const;
 
 	static Matrix	identity(const unsigned& = 1);
 
-	std::vector<std::vector<std::complex<double>>>	getMat();
+	std::vector<std::vector<std::complex<double>>>	getMat() const;
 
 	unsigned	getRows() const;
 	unsigned	getCols() const;
