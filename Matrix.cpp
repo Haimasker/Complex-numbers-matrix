@@ -438,14 +438,14 @@ bool Matrix::reshape(const unsigned& row, const unsigned& col) {
 	return true;
 }
 
-std::complex<double> Matrix::trace() {
+std::complex<double> Matrix::trace() const {
 	std::complex<double> res = 0;
 	for (unsigned i = 0; i < std::min(this->rows, this->cols); i++)
 		res += this->mat[i][i];
 	return res;
 }
 
-std::complex<double> Matrix::determinant() {
+std::complex<double> Matrix::determinant() const {
 	std::complex<double> res = 0.0 + 0.0i;
 	if (this->rows != this->cols)
 		return res;
@@ -477,7 +477,7 @@ Matrix Matrix::identity(const unsigned& size) {
 	return res;
 }
 
-std::vector<std::vector<std::complex<double>>> Matrix::getMat() {
+std::vector<std::vector<std::complex<double>>> Matrix::getMat() const {
 	return this->mat;
 }
 
